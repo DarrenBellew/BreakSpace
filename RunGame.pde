@@ -2,7 +2,8 @@ void runGame()  {
   fill(255);
   
   int i=0;
-  PVector n = new PVector();
+  PVector l = new PVector();
+  PVector s = new PVector();
   //setup() for the game
   if(gameRunning == false)  {
     newGame();
@@ -12,28 +13,25 @@ void runGame()  {
   int size = entities.size();
   
   while(i<entities.size())  {
-    
+    if(i<=10)  {
+      println(i);
+    }
     entities.get(i).display();
     entities.get(i).move();
     entities.get(i).wallCollision();
     
-    entities.get(i).entityCollision(
-      entities.get(i).location.x,
-      entities.get(i).location.y,
-      entities.get(i).size.x,
-      entities.get(i).size.y
-    );
-    
-    
+    entities.get(i).entityCollision(i);
     i++;
+    
   }
+  i=0;
 }
 
 void newGame()  {
   clearEntities();
   
   entities.add(new Player());
-  entities.add(new Ball());
+  
   
   
   for(int i=1; i<=10; i++)  {
@@ -43,6 +41,7 @@ void newGame()  {
     }
     
   }
+  entities.add(new Ball());
   
 }
 

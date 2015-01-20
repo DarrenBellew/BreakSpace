@@ -5,7 +5,7 @@ class Ball extends Entities  {
   Ball(float x, float y, float w, float h)  {
     location = new PVector(x,y);
     size = new PVector(w,h);//20*20
-    velocity = new PVector(0,3);//so it starts off at the middle and slowly going downwards for the player to hit
+    velocity = new PVector(2,3);//so it starts off at the middle and slowly going downwards for the player to hit
     name = names[1];
     hit = false;
   }
@@ -54,14 +54,10 @@ class Ball extends Entities  {
     }
   }
   
-  void entityCollision(float x, float y, float w, float h)  {
-    PVector l = new PVector(x,y);
-    PVector s = new PVector(w,h);
-    println(l.x);
-    if(location.x + size.x/2 >= l.x && location.x-size.x/2 <= l.x + s.x)  {
-      if(location.y + size.y/2 >= l.y + s.x&& location.y - size.y/2 <= l.y)  {
-        velocity.mult(-1,-1);
-      }
-    }
+  void entityCollision(int i)  {
+    //println(i);
+    //println(entities.get(i).name);
+    //println("pre-hello");
+    
   }
 }

@@ -15,5 +15,6 @@ class Entities  {
   
   void wallCollision()  {}
   //but not done in Player (Obviously)
-  void entityCollision(float x, float y, float w, float h) {}
+  void entityCollision(int i) {}
+       
 }
