@@ -54,7 +54,7 @@ class Ball extends Entities  {
     }
   }
   
-  void entityCollision(int x, int y, int w, int h)  {
+  void entityCollision(float x, float y, float w, float h)  {
     PVector l = new PVector(x,y);
     PVector s = new PVector(w,h);
     println(l.x);
