@@ -13,6 +13,7 @@ boolean gameRunning = false;
 //to hold names of the entities so I can easily distinguish them amongst the ArrayList without the need for a "instance of" case and makes it easier for me to compare;
 String[] names = {"Player", "Ball", "Enemy"};
 
+int count = 0;
 void setup()  {
   size(500,500);
 

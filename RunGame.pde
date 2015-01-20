@@ -1,3 +1,5 @@
+int ballVar;
+
 void runGame()  {
   fill(255);
   
@@ -13,14 +15,16 @@ void runGame()  {
   int size = entities.size();
   
   while(i<entities.size())  {
-    if(i<=10)  {
-      println(i);
-    }
+    
     entities.get(i).display();
     entities.get(i).move();
     entities.get(i).wallCollision();
+
     
-    entities.get(i).entityCollision(i);
+    
+    entities.get(i).entityCollision();
+    
+    
     i++;
     
   }
@@ -28,20 +32,22 @@ void runGame()  {
 }
 
 void newGame()  {
+  int i=0;
   clearEntities();
   
   entities.add(new Player());
+  entities.add(new Ball());
   
   
-  
-  for(int i=1; i<=10; i++)  {
+  for(i=1; i<=10; i++)  {
     for(int j=1; j<=10; j++)  {
       entities.add(new Enemy(j,i));//J is row, I is column.
       CountEnem.set(i,j);//by the end itll have the Length and Width of the enemies (Scale: # Enemies);
     }
     
   }
-  entities.add(new Ball());
+  i=0;
+  
   
 }
 
