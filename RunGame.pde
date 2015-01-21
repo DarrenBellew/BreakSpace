@@ -21,8 +21,9 @@ void runGame()  {
     entities.get(i).wallCollision();
 
     
-    
-    entities.get(i).entityCollision();
+    if(!(entities.get(i) instanceof Ball))  {
+      entities.get(1).entityCollision(i);
+    }
     
     
     i++;

@@ -1,6 +1,6 @@
 class Enemy extends Entities {  
   float ratio = 1.2;
-  Enemy(float w, float h, float x, float y)  {
+  Enemy(float x, float y, float w, float h)  {
     
     location = new PVector(x*w*ratio,y*h*ratio);
     location.x += centX/2;//to keep sync with the translations
@@ -12,12 +12,12 @@ class Enemy extends Entities {
   }
   
   Enemy()  {
-    this(20,10,width/2-5,width/2-5);//incase i forget it'll go here
+    this(width/2-5,width/2-5,20,10);//incase i forget it'll go here
   }
   
   Enemy(int j, int i)  {//i invert the i,j for no reason
     
-    this(20,10,j,i);
+    this(j,i,20,10);
 
   }
   
