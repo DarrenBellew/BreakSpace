@@ -56,12 +56,24 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   
   void entityCollision(int j)  {
     //println("pre-hello");
-    PVector l = new PVector();
-    PVector s = new PVector();
+    PVector l = new PVector(entities.get(j).location);
+    PVector s = new PVector(entities.get(j).size);
     //println(j);
-    if(j==101)  {
-      println("hey");
-      println(++count);
+    
+    boolean hCol;
+    boolean vCol;
+    
+    if(location.y + size.y < l.y)  {
+      hCol = false;
+    }
+    else if(location.y > l.y + s.y)  {
+      hCol = false;
+    }
+    if(location.x + size.x < l.x)  {
+      vCol = false;
+    }
+    else if(location.x < l.x)  {
+      
     }
       
   }

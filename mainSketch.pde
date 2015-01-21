@@ -9,7 +9,7 @@ ArrayList<Entities> entities = new ArrayList<Entities>();
 PVector CountEnem;
 //to hold a state for the game to be running (If false the game is reset and entities re-created after being deleted
 boolean gameRunning = false;
-
+  
 //to hold names of the entities so I can easily distinguish them amongst the ArrayList without the need for a "instance of" case and makes it easier for me to compare;
 String[] names = {"Player", "Ball", "Enemy"};
 
