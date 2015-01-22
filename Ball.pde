@@ -60,22 +60,15 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     PVector s = new PVector(entities.get(j).size);
     //println(j);
     
-    boolean hCol;
-    boolean vCol;
+    boolean hCol=false;
+    boolean vCol=false;
+    boolean col = true;
+    boolean isContainsCollision = false;
     
-    if(location.y + size.y < l.y)  {
-      hCol = false;
-    }
-    else if(location.y > l.y + s.y)  {
-      hCol = false;
-    }
-    if(location.x + size.x < l.x)  {
-      vCol = false;
-    }
-    else if(location.x < l.x)  {
-      
-    }
-      
+    float ballToBrick = 
+     http://gamedev.stackexchange.com/questions/22609/breakout-collision-detecting-the-side-of-collision 
+    
+    
   }
 }
 

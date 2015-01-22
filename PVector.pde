@@ -71,4 +71,10 @@ class PVector  {
   int size()  {
     return 2;
   }
+  float Normalise()  {
+    float len = squareroot(x*x + y*y);
+    x=x/len;
+    y=y/len;
+    return this;
+  }
 }
