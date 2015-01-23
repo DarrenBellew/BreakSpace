@@ -5,7 +5,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   Ball(float x, float y, float w, float h)  {
     location = new PVector(x,y);
     size = new PVector(w,h);//20*20
-    velocity = new PVector(2,3);//so it starts off at the middle and slowly going downwards for the player to hit
+    velocity = new PVector(1,1);//so it starts off at the middle and slowly going downwards for the player to hit
     name = names[1];
     hit = false;
   }
@@ -75,7 +75,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       vCol = true;
     }
     if(location.y < l.y+s.y && l.y+s.y < location.y+size.y)  {
-      vCol = true;
+      vCol = false;
     }
     
     if(!hCol && !vCol)  {
@@ -87,26 +87,32 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     }
     
     if(hCol && vCol || isContainsCollision)  {
-      if(isContainsCollision)  {
-        location.set(centX, centY);//This is a weird bug as it wont happen so its just a soft-reset
+      float wy = (size.x + s.x) * (location.y+size.y/2 -  l.y+s.y/2);
+      float hx = (size.y + s.y) * (location.x+size.x/2 -  l.x+s.x/2);
+      
+      if(wy > hx)  {
+        if(wy > -hx)  {
+          //top
+          velocity.mult(-1,1);
+        }
+        else  {
+          //left
+          velocity.mult(1,-1);
+        }
+        
       }
       else  {
-        if(location.y <= l.y)  {
+        if(wy > -hx)  {
+          //right
           velocity.mult(1,-1);
         }
-        else if(location.y >= l.y)  {
-          velocity.mult(1,-1);
-        }
-        location.add(velocity);
-        if(location.x < l.x)  {
-          velocity.mult(-1,1);
-        }
-        else if(location.x > l.x)  {
+        else {
           velocity.mult(-1,1);
         }
       }
-      //location.add(velocity);//to simuate a move
     }
+      //location.add(velocity);//to simuate a move
+  }
     
     
     
@@ -115,6 +121,6 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     //First detect Collision
     
     
-  }
 }
+
 
