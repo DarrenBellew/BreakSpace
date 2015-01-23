@@ -60,13 +60,59 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     PVector s = new PVector(entities.get(j).size);
     //println(j);
     
-    boolean hCol=false;
-    boolean vCol=false;
-    boolean col = true;
+    boolean hCol = false;
+    boolean vCol = false;
     boolean isContainsCollision = false;
     
-    float ballToBrick = 
-     http://gamedev.stackexchange.com/questions/22609/breakout-collision-detecting-the-side-of-collision 
+    if(location.x < l.x && l.x < location.x+size.x)  {
+      hCol = true;
+    }
+    if(location.x < l.x+s.x && l.x+s.x < location.x+size.x)  {
+      hCol = true;
+    }
+    
+    if(location.y < l.y && l.y < location.y+size.y)  {
+      vCol = true;
+    }
+    if(location.y < l.y+s.y && l.y+s.y < location.y+size.y)  {
+      vCol = true;
+    }
+    
+    if(!hCol && !vCol)  {
+      if(l.x < location.x && location.x < l.x+s.x)  {
+        if(l.y < location.y && location.y < l.y+s.y)  {
+          isContainsCollision = true;
+        }
+      }
+    }
+    
+    if(hCol && vCol || isContainsCollision)  {
+      if(isContainsCollision)  {
+        location.set(centX, centY);//This is a weird bug as it wont happen so its just a soft-reset
+      }
+      else  {
+        if(location.y <= l.y)  {
+          velocity.mult(1,-1);
+        }
+        else if(location.y >= l.y)  {
+          velocity.mult(1,-1);
+        }
+        location.add(velocity);
+        if(location.x < l.x)  {
+          velocity.mult(-1,1);
+        }
+        else if(location.x > l.x)  {
+          velocity.mult(-1,1);
+        }
+      }
+      //location.add(velocity);//to simuate a move
+    }
+    
+    
+    
+     //http://gamedev.stackexchange.com/questions/22609/breakout-collision-detecting-the-side-of-collision 
+    
+    //First detect Collision
     
     
   }
