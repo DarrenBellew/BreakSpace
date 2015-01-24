@@ -8,8 +8,7 @@ class Enemy extends Entities {
     velocity = new PVector(5,0);
     size = new PVector(w,h);
     name = names[2];
-    
-    lives = 3;
+    hit = false;
   }
   
   Enemy()  {
@@ -29,14 +28,6 @@ class Enemy extends Entities {
       rect(0, 0, size.x, size.y);
     popMatrix();
     
-  }
-  
-  void hit(int i)  {
-    lives--;
-    
-    if(lives <= 0)  {
-      entities.remove(i);
-    }
   }
   
 }

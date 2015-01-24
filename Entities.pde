@@ -2,9 +2,9 @@ class Entities  {
   PVector location;
   PVector velocity;
   PVector size;
+  PVector temp;
   String name;
-  int lives;
-  
+  boolean hit;
   
   void Entities(float x, float y, float w, float h)  {
   }
