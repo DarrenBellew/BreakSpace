@@ -7,26 +7,29 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     size = new PVector(w,h);//20*20
     velocity = new PVector(2,3);//so it starts off at the middle and slowly going downwards for the player to hit
     name = names[1];
-    hit = false;
+    colour = color(0,0,255);
+    lives = 1;//so unaffected by CleanUp
   }
   Ball(float x, float y)  {
     this(
       x,
       y,
-      20,
-      20
+      10,
+      10
     );
   }
   Ball()  {
     this(
       width/2,
       height/2,
-      20,
-      20
+      10,
+      10
     ); 
   }
   
   void display()  {
+    fill(colour);
+    stroke(colour);
     pushMatrix();
       translate(location.x, location.y);
       
@@ -57,8 +60,6 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   }
   
   void wallCollision()  {
-    
-    PVector n = new PVector(1,1);
     PVector l = new PVector(location);
     PVector s = new PVector(size);
     
@@ -96,7 +97,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   
   boolean checkCollision(Entities e)
   {
-    
+    boolean col=false;
     // Top Collision
     if ((location.y + size.y + velocity.y >= e.location.y) && (location.y + size.y  <= e.location.y))
     {
@@ -105,7 +106,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Top collision");
         velocity.mult(1,-1);
-        return true; 
+        col = true;
       }
     }
     
@@ -117,7 +118,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Bottom collision");
         velocity.mult(1,-1);
-        return true;
+        col = true;
       } 
     }    
     
@@ -130,7 +131,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Left  collision");
         velocity.mult(-1,1);
-        return true; 
+        col = true; 
       }
     }
     
@@ -142,8 +143,13 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Right collision");
         velocity.mult(-1,1);
-        return true;
-      } 
+        col = true;
+      }
+    }
+    
+    //Check if there was a collsion
+    if(col && e instanceof Enemy)  {
+      e.hit();
     }
     /*
      if (!collides(e))

@@ -1,14 +1,18 @@
 class Enemy extends Entities {  
   float ratio = 1.2;
+  
+  float dim;
   Enemy(float x, float y, float w, float h)  {
     
-    location = new PVector(x*w*ratio,y*h*ratio);
-    location.x += centX/2;//to keep sync with the translations
+    location = new PVector(x*w*ratio*1.2,y*h*ratio*1.2);
+    location.x += centX/3;//to keep sync with the translations
     location.y += 10;
     velocity = new PVector(5,0);
     size = new PVector(w,h);
     name = names[2];
-    hit = false;
+    lives = 1;
+    colour = color(125,125,125);
+    dim = 1;
   }
   
   Enemy()  {
@@ -22,11 +26,22 @@ class Enemy extends Entities {
   }
   
   void display()  {
-    
+    fill(colour);
+    stroke(colour);
     pushMatrix();
     translate(location.x, location.y);
       rect(0, 0, size.x, size.y);
     popMatrix();
+    
+  }
+  
+  void hit()  {
+    lives--;
+    println("I was hit");
+
+    
+    dim = dim/lives;
+    colour = color(red(colour) *  dim, green(colour) * dim, blue(colour) * dim);
     
   }
   

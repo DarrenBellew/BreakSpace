@@ -2,9 +2,10 @@ class Entities  {
   PVector location;
   PVector velocity;
   PVector size;
-  PVector temp;
+
   String name;
-  boolean hit;
+  color colour;
+  int lives;
   
   void Entities(float x, float y, float w, float h)  {
   }
@@ -17,6 +18,7 @@ class Entities  {
   //but not done in Player (Obviously)
   
   void entityCollision(int j) {}
+  void hit(){};
   
        
 }

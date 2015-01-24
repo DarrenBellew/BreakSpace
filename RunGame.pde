@@ -21,6 +21,8 @@ void runGame()  {
     entities.get(i).display();
     entities.get(i).move();
     
+    //wall collision moved here ASWELL as it seems to ignore the wall after an enemy dies
+    ball.wallCollision();
     i++;    
   }  
   // Collision detection bit
@@ -29,14 +31,23 @@ void runGame()  {
     Entities e = entities.get(i);
     if (e != ball)
     {
+      ball.wallCollision();
       if (ball.checkCollision(e))
       {
         break;
       }
-      ball.wallCollision();
+      
     }
   }
   
+  //clean up
+  for(i=0; i<size; i++)  {
+    if(entities.get(i).lives <= 0)  {
+      entities.remove(i);
+      i--;
+      size = entities.size();
+    }
+  }
   i=0;
 }
 

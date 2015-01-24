@@ -1,5 +1,5 @@
 float centX, centY;
-color bg = color(255,0,0);
+color bg = color(255,255,255);
 int direction = 0;
 int menu = 1;//The current position of the player if it is 1 and goes 0 by player pressing ESC, the game is "Paused" :)
 int sMenu = -1;//to show the highlight of the mouse
