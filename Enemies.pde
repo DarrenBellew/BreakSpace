@@ -10,7 +10,7 @@ class Enemy extends Entities {
     velocity = new PVector(5,0);
     size = new PVector(w,h);
     name = names[2];
-    lives = 1;
+    lives = 3;
     colour = color(125,125,125);
     dim = 1;
   }

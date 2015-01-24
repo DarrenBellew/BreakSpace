@@ -97,7 +97,8 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   
   boolean checkCollision(Entities e)
   {
-    boolean col=false;
+    boolean vCol = false;
+    boolean hCol = false;
     // Top Collision
     if ((location.y + size.y + velocity.y >= e.location.y) && (location.y + size.y  <= e.location.y))
     {
@@ -106,7 +107,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Top collision");
         velocity.mult(1,-1);
-        col = true;
+        hCol = true;
       }
     }
     
@@ -118,7 +119,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Bottom collision");
         velocity.mult(1,-1);
-        col = true;
+        hCol = true;
       } 
     }    
     
@@ -131,7 +132,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Left  collision");
         velocity.mult(-1,1);
-        col = true; 
+        vCol = true; 
       }
     }
     
@@ -143,105 +144,22 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       {
         println(++ count + "Right collision");
         velocity.mult(-1,1);
-        col = true;
+        vCol = true;
       }
     }
     
     //Check if there was a collsion
-    if(col && e instanceof Enemy)  {
-      e.hit();
-    }
-    /*
-     if (!collides(e))
-     {
-       return false;
-     }
-     
-     // Calculate the angle
-     PVector centerBall = new PVector(location.x + size.x / 2, location.y + size.y / 2);  
-     PVector centerBrick = new PVector(e.location.x + e.size.x / 2, e.location.y + e.size.y / 2);  
-     PVector brickToBall = new PVector(centerBall.x - centerBrick.x, centerBall.y - centerBrick.y);
-     
-     stroke(0);
-     line(centerBall.x, centerBall.y, centerBrick.x, centerBrick.y);
-     brickToBall.normalise();
-     float angle = degrees(atan2(brickToBall.y, brickToBall.x)) + 90;
-     
-     if (angle < 0 )
-     {
-       angle = 360 + angle;
-     }
+    if(vCol || hCol)  {
+      PVector change;
+      if(vCol)  {
+        change = new PVector(offSet(location.y));
+      }
+      if(hCol)  {
+        change = new PVector(offSet(location.x));
+      }
       
-     //println(angle);
-     //println(brickToBall.x + " " + brickToBall.y);
-     /*     
-     if (angle > 315 || angle < 45)
-     {
-        println("Top");
-        velocity.y = - velocity.y;
-        location.y = e.location.y - size.y; 
-        return true;
-     }  
-   
-     if (angle < 225 && angle > 135)
-     {
-        println("Bottom");
-        velocity.y = - velocity.y;
-        location.y = e.location.y + e.size.y; 
-        return true;
-     }  
-   
-     if (angle >=45 && angle <= 135)
-     {
-        println("Right");
-        velocity.x = - velocity.x;
-        location.x = e.location.x + e.size.x; 
-        return true;
-     }  
-   
-     if (angle >=225 && angle <= 315)
-     {
-        println("Left");
-        velocity.x = - velocity.x;
-        location.x = e.location.x - size.x; 
-        return true;
-     }  
-
-   if ((location.x + size.x > e.location.x) && (location.x < e.location.x))
-    {
-      println("Left collision");
-      velocity.mult(-1,1); 
-      location.x = e.location.x - size.x; 
-      return true;
     }
     
-    if ((location.x < e.location.x + e.size.x) && (location.x + size.x > e.location.x + e.size.x))
-    {
-      println("Right collision");
-      velocity.mult(-1,1);
-      location.x = e.location.x + e.size.x; 
-     return true; 
-    }
-      
-    /*
-    // Top collision
-    if ((location.y + size.y > e.location.y) && (location.y < e.location.y))
-    {
-      println("Top collision");
-      velocity.mult(1,-1);
-      location.y = e.location.y - size.y;
-     return true; 
-    }
-    
-    // Bottom collision
-    if ((location.y < e.location.y + e.size.y) && (location.y + size.y > e.location.y + e.size.y))
-    {
-      println("Bottom collision");
-      velocity.mult(1,-1);
-       location.y = e.location.y + e.size.y;
-      return true; 
-    }    
-    */
     return false;
   }
   
