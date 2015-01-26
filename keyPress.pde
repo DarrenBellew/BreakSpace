@@ -3,7 +3,7 @@ boolean[] keys = new boolean[526];
 void keyPressed()  {
   
    
-  if(key == TAB)  {
+  if(key == TAB && gameRunning)  {
     gameOver();
   }
   keys[keyCode] = true;
