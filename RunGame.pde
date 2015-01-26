@@ -12,7 +12,14 @@ void runGame()  {
   //setup() for the game
   if(gameRunning == false)  {
     newGame();
+    gameTime=millis();
   }
+  
+  if(player.lives <= 0)  {
+    gameOver();
+  }
+  
+  
   
   int size = entities.size();
   textAlign(CENTER);
@@ -30,12 +37,7 @@ void runGame()  {
     }
     //wall collision moved here ASWELL as it seems to ignore the wall after an enemy dies
     if(ball.wallCollision())  {//returns TRUE if hits BOTTOM of screen
-      if(player.hit())  {//returns true of player loses
-        menu = 0;
-        gameRunning = false;
-        println("Game Over");
-      }
-      else {
+      if(player.hit())  {
         ball.location.set(centX,centY);
         ball.velocity.set(0,3);
       }
@@ -117,4 +119,13 @@ void pause(char button)  {
   if(checkKey(button))  {
     gameRunning = true;
   }
+}
+
+void gameOver()  {
+  menuMessage = "Thank you for playing, but you lost\n";
+  gameTime = abs(gameTime - millis())/1000;
+  menuMessage = menuMessage+"You lasted: "+ gameTime+" Seconds";
+  clearEntities();
+  menu = 0;
+  gameRunning = false;
 }

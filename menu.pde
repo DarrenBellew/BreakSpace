@@ -6,7 +6,7 @@ void mainMenu()  {
   if(menuOpts.size() < options.length)  {
     menuSetup();
   }
-
+  showText(menuMessage, centX, 40, 20);
   for(int i=0; i<menuOpts.size(); i++)  {
     menuOpts.get(i).display(i);
   }
@@ -15,7 +15,7 @@ void mainMenu()  {
 
 void menuSetup()  {
   clearMenu();    
-
+  
   for(int i=0; i < options.length; i++)  {
     menuOpts.add(new MenuItem(i, options[i]));
   }

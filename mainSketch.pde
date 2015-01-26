@@ -4,6 +4,8 @@ int direction = 0;
 int menu = 0;//The current position of the player if it is 1 and goes 0 by player pressing ESC, the game is "Paused" :)
 int sMenu = -1;//to show the highlight of the mouse
 float fps = 60;
+String menuMessage = "Welcome to BreakSpace";
+int gameTime;
 
 ArrayList<Entities> entities = new ArrayList<Entities>();
 //a PVector to hold the number of enemies both on x-axis and y-axis for future use.

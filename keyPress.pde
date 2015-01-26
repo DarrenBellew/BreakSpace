@@ -4,8 +4,7 @@ void keyPressed()  {
   
    
   if(key == TAB)  {
-    menu = 0;
-    gameRunning = false;
+    gameOver();
   }
   keys[keyCode] = true;
 }

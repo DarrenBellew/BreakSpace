@@ -59,12 +59,7 @@ class Player extends Entities {
   
   boolean hit()  {
     lives--;
-    if(lives <= 0)  {
-      return true;
-    }
-    else  {
-      return false;
-    }
+    return true;
   }
   
   void sizeToggle()  {
