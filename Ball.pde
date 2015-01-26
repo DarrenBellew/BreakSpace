@@ -1,10 +1,11 @@
 class Ball extends Entities  {//I call it ball but the player doesn't care
   
-  
+  PVector primSize;
   
   Ball(float x, float y, float w, float h)  {
     location = new PVector(x,y);
     size = new PVector(w,h);//20*20
+    primSize = new PVector(w,h);
     velocity = new PVector(2,3);//so it starts off at the middle and slowly going downwards for the player to hit
     name = names[1];
     colour = color(0,0,255);
@@ -39,26 +40,26 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   }
   
   void move()  {
-    if(gameRunning || gamePaused)  {
-      if (checkKey('O'))
-      {
-        location.y -= 1;
-      }
-      else if (checkKey('L'))
-      {
-        location.y += 1;
-      }
-      else if (checkKey('K'))
-      {
-        location.x -= 1;
-      }
-      else if (checkKey(';'))
-      {
-        location.x += 1;
-      }
-        
-      location.add(velocity);
+    
+    if (checkKey('O'))
+    {
+      location.y -= 1;
     }
+    else if (checkKey('L'))
+    {
+      location.y += 1;
+    }
+    else if (checkKey('K'))
+    {
+      location.x -= 1;
+    }
+    else if (checkKey(';'))
+    {
+      location.x += 1;
+    }
+      
+    location.add(velocity);
+    
   }
   
   boolean wallCollision()  {
@@ -69,7 +70,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     if(l.x <= 0 || l.x+s.x >= width)  {
       velocity.mult(-1,1);
     }
-    if(l.y-s.y <= 0 || l.y+s.y >=height)  {
+    if(l.y <= 0 || l.y+s.y >=height)  {
       velocity.mult(1,-1);
       if(l.y+s.y >= height)  {
         return true;
@@ -101,16 +102,13 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     return true;    
   }
   
-  boolean checkCollision(Entities e)
-  {
+  boolean checkCollision(Entities e)  {
     boolean vCol = false;
     boolean hCol = false;
     // Top Collision
-    if ((location.y + size.y + velocity.y >= e.location.y) && (location.y + size.y  <= e.location.y))
-    {
+    if ((location.y + size.y + velocity.y >= e.location.y) && (location.y + size.y  <= e.location.y))  {
       // Now check the x's
-      if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))
-      {
+      if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))  {
         println(++ count + "Top collision");
         velocity.mult(1,-1);
         hCol = true;
@@ -119,10 +117,8 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     
     
     // Bottom collision
-    if ((location.y + velocity.y <= e.location.y + e.size.y) && (location.y >= e.location.y + e.size.y))
-    {
-      if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))
-      {
+    if ((location.y + velocity.y <= e.location.y + e.size.y) && (location.y >= e.location.y + e.size.y))  {
+      if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))  {
         println(++ count + "Bottom collision");
         velocity.mult(1,-1);
         hCol = true;
@@ -131,11 +127,9 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     
     
     // Left collision
-    if ((location.x + size.x + velocity.x >= e.location.x) && (location.x + size.x  <= e.location.x))
-    {
+    if ((location.x + size.x + velocity.x >= e.location.x) && (location.x + size.x  <= e.location.x))  {
       // Now check the y's
-      if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))
-      {
+      if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))  {
         println(++ count + "Left  collision");
         velocity.mult(-1,1);
         vCol = true; 
@@ -143,11 +137,9 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     }
     
     // Right collision
-    if ((location.x + velocity.x <= e.location.x + e.size.x) && (location.x >= e.location.x + e.size.x))
-    {
+    if ((location.x + velocity.x <= e.location.x + e.size.x) && (location.x >= e.location.x + e.size.x))  {
       // Now check the y's      
-      if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))
-      {
+      if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))  {
         println(++ count + "Right collision");
         velocity.mult(-1,1);
         vCol = true;
@@ -156,9 +148,27 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     if(hCol || vCol)  {
       return true;
     }
-
-    
     return false;
+  }
+  void sizeToggle()  {
+    if(size.x > primSize.x && size.y > primSize.x)  {
+      size.set(primSize);
+    }
+    else if(size.x < primSize.x && size.y > primSize.y)  {
+      size.set(primSize);
+    }
+    else  {
+      int rand = (int)random(0,2);
+      switch (rand)  {
+        //make bigger or smaller if neither big/small
+        case 0:  {
+          size.set(size.x/2, size.y/2);
+        }
+        case 1:  {
+          size.set(size.x*2, size.x*2);
+        }
+      }
+    }
   }
 
 }

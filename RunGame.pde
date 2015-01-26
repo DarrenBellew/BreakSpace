@@ -2,7 +2,7 @@ int ballVar;
 
 Ball ball;
 Player player;
-
+PowerUp powerUp;
 void runGame()  {
   fill(255);
   
@@ -18,11 +18,16 @@ void runGame()  {
   textAlign(CENTER);
   
   showText("Lives: "+ player.lives, centX,30,15);
-  
+  //println(frameRate);
   while(i<size)  {    
     entities.get(i).display();
     entities.get(i).move();
-     
+    size = entities.size();//incase for Changes!
+    if(! (entities.get(size-1) instanceof PowerUp))  {//if the last entity is not POWER UP
+      if(powerUp.restart())  {
+        entities.add(powerUp);
+      }
+    }
     //wall collision moved here ASWELL as it seems to ignore the wall after an enemy dies
     if(ball.wallCollision())  {//returns TRUE if hits BOTTOM of screen
       if(player.hit())  {//returns true of player loses
@@ -36,7 +41,7 @@ void runGame()  {
       }
     }
     i++;    
-  }  
+  }
   // Collision detection bit
   for (i = 0 ; i < size ; i ++)
   {
@@ -46,18 +51,16 @@ void runGame()  {
       ball.wallCollision();
       if (ball.checkCollision(e))
       {
-        if(entities.get(i) instanceof Enemy)  {
+        if (!(entities.get(i) instanceof Player))  {
           entities.get(i).hit();
-        }
-        
-      }
-      
+        } 
+      } 
     }
   }
     
   //clean up
   for(i=0; i<size; i++)  {
-    if(entities.get(i).lives <= 0 && entities.get(i) instanceof Enemy)  {
+    if(entities.get(i).lives <= 0 && (entities.get(i) instanceof Enemy || entities.get(i) instanceof PowerUp))  {
       entities.remove(i);
       i--;
       size = entities.size();
@@ -82,6 +85,10 @@ void newGame()  {
     }
     
   }
+  
+  powerUp = new PowerUp();
+  entities.add(powerUp);
+  
   i=0;
   textAlign(CENTER, CENTER);
   showText("New Game, Press x to Begin", centX, centY, 15);

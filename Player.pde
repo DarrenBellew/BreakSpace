@@ -1,9 +1,11 @@
 class Player extends Entities {
-  
+  PVector primSize;
   Player(float x, float y, float w, float h)  {
     location = new PVector(x,y);
+    
     velocity = new PVector();
     size = new PVector(w,h);
+    primSize=new PVector(w,h);//i.e. Primary Size
     
     name = names[0];
     colour = color(255,255,0);
@@ -53,9 +55,9 @@ class Player extends Entities {
       
       location.add(velocity);
       velocity.set(0,0);
-    }
-   
-   boolean hit()  {
+  }
+  
+  boolean hit()  {
     lives--;
     if(lives <= 0)  {
       return true;
@@ -63,6 +65,21 @@ class Player extends Entities {
     else  {
       return false;
     }
-   } 
+  }
+  
+  void sizeToggle()  {
+    if(size.x != primSize.x || size.y != primSize.y)  {
+      size.set(primSize);
+    }
+    else  {
+      int rand = (int)random(0,2);
+      if(rand == 0)  {
+        size.set(primSize.x/2, primSize.y/2);
+      }
+      else  {
+        size.set(primSize.x*2, primSize.y*2);
+      }
+    }
+  }
   
 }
