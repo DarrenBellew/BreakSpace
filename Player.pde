@@ -53,6 +53,16 @@ class Player extends Entities {
       
       location.add(velocity);
       velocity.set(0,0);
-    } 
+    }
+   
+   boolean hit()  {
+    lives--;
+    if(lives <= 0)  {
+      return true;
+    }
+    else  {
+      return false;
+    }
+   } 
   
 }

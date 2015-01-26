@@ -12,17 +12,29 @@ void runGame()  {
   //setup() for the game
   if(gameRunning == false)  {
     newGame();
-    gameRunning = true;
   }
   
   int size = entities.size();
+  textAlign(CENTER);
   
-  while(i<entities.size())  {    
+  showText("Lives: "+ player.lives, centX,30,15);
+  
+  while(i<size)  {    
     entities.get(i).display();
     entities.get(i).move();
-    
+     
     //wall collision moved here ASWELL as it seems to ignore the wall after an enemy dies
-    ball.wallCollision();
+    if(ball.wallCollision())  {//returns TRUE if hits BOTTOM of screen
+      if(player.hit())  {//returns true of player loses
+        menu = 0;
+        gameRunning = false;
+        println("Game Over");
+      }
+      else {
+        ball.location.set(centX,centY);
+        ball.velocity.set(0,3);
+      }
+    }
     i++;    
   }  
   // Collision detection bit
@@ -34,19 +46,22 @@ void runGame()  {
       ball.wallCollision();
       if (ball.checkCollision(e))
       {
-        break;
+        if(entities.get(i) instanceof Enemy)  {
+          entities.get(i).hit();
+        }
+        
       }
       
     }
   }
-  
+    
   //clean up
   for(i=0; i<size; i++)  {
-    if(entities.get(i).lives <= 0)  {
+    if(entities.get(i).lives <= 0 && entities.get(i) instanceof Enemy)  {
       entities.remove(i);
       i--;
       size = entities.size();
-    }
+   }
   }
   i=0;
 }
@@ -68,7 +83,9 @@ void newGame()  {
     
   }
   i=0;
-  
+  textAlign(CENTER, CENTER);
+  showText("New Game, Press x to Begin", centX, centY, 15);
+  pause('X');
   
 }
 
@@ -76,5 +93,21 @@ void clearEntities()  {
   int i=0;
   while(entities.size() != 0)  {
     entities.remove(0);
+  }
+}
+
+void showText(String msg, float x, float y, float size)  {
+  textSize(size);
+  fill(0,255,0);
+  
+  text(
+    msg,
+    x,
+    y-15
+  );
+}
+void pause(char button)  {
+  if(checkKey(button))  {
+    gameRunning = true;
   }
 }

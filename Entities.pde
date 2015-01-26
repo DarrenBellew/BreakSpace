@@ -14,11 +14,10 @@ class Entities  {
   
   void move(){}
   
-  void wallCollision()  {}
+  //wall collision does not need to exist here as its specific to ball
   //but not done in Player (Obviously)
-  
-  void entityCollision(int j) {}
-  void hit(){};
+
+  boolean hit(){return true;};
   
        
 }

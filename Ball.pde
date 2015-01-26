@@ -39,27 +39,29 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
   }
   
   void move()  {
-    if (checkKey('O'))
-    {
-      location.y -= 1;
+    if(gameRunning || gamePaused)  {
+      if (checkKey('O'))
+      {
+        location.y -= 1;
+      }
+      else if (checkKey('L'))
+      {
+        location.y += 1;
+      }
+      else if (checkKey('K'))
+      {
+        location.x -= 1;
+      }
+      else if (checkKey(';'))
+      {
+        location.x += 1;
+      }
+        
+      location.add(velocity);
     }
-    else if (checkKey('L'))
-    {
-      location.y += 1;
-    }
-    else if (checkKey('K'))
-    {
-      location.x -= 1;
-    }
-    else if (checkKey(';'))
-    {
-      location.x += 1;
-    }
-    
-    location.add(velocity);
   }
   
-  void wallCollision()  {
+  boolean wallCollision()  {
     PVector l = new PVector(location);
     PVector s = new PVector(size);
     
@@ -67,9 +69,13 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     if(l.x <= 0 || l.x+s.x >= width)  {
       velocity.mult(-1,1);
     }
-    if(l.y <= 0 || l.y+s.y >=height)  {
+    if(l.y-s.y <= 0 || l.y+s.y >=height)  {
       velocity.mult(1,-1);
+      if(l.y+s.y >= height)  {
+        return true;
+      }
     }
+    return false;
   }
   
   boolean collides(Entities b)
@@ -147,83 +153,13 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
         vCol = true;
       }
     }
-    
-    //Check if there was a collsion
-    if(vCol || hCol)  {
-      PVector change;
-      if(vCol)  {
-        change = new PVector(offSet(location.y));
-      }
-      if(hCol)  {
-        change = new PVector(offSet(location.x));
-      }
-      
+    if(hCol || vCol)  {
+      return true;
     }
+
     
     return false;
   }
-  
-  void entityCollision(int j)  {
-    //println("pre-hello");
-    PVector l = new PVector(entities.get(j).location);
-    PVector s = new PVector(entities.get(j).size);
-    //println(j);
-    
-    boolean hCol = false;
-    boolean vCol = false;
-    boolean isContainsCollision = false;
-    
-    if(location.x < l.x && l.x < location.x+size.x)  {
-      hCol = true;
-    }
-    if(location.x < l.x+s.x && l.x+s.x < location.x+size.x)  {
-      hCol = true;
-    }
-    
-    if(location.y < l.y && l.y < location.y+size.y)  {
-      vCol = true;
-    }
-    if(location.y < l.y+s.y && l.y+s.y < location.y+size.y)  {
-      vCol = true;
-    }
-    
-    if(!hCol && !vCol)  {
-      if(l.x < location.x && location.x < l.x+s.x)  {
-        if(l.y < location.y && location.y < l.y+s.y)  {
-          isContainsCollision = true;
-        }
-      }
-    }
-    
-    if(hCol && vCol || isContainsCollision)  {
-      if(isContainsCollision)  {
-        location.set(centX, centY);//This is a weird bug as it wont happen so its just a soft-reset
-      }
-      else  {
-        if(location.y <= l.y)  {
-          velocity.mult(1,-1);
-        }
-        else if(location.y >= l.y)  {
-          velocity.mult(1,-1);
-        }
-        location.add(velocity);
-        if(location.x < l.x)  {
-          velocity.mult(-1,1);
-        }
-        else if(location.x > l.x)  {
-          velocity.mult(-1,1);
-        }
-      }
-      //location.add(velocity);//to simuate a move
-    }
-    
-    
-    
-     //http://gamedev.stackexchange.com/questions/22609/breakout-collision-detecting-the-side-of-collision 
-    
-    //First detect Collision
-    
-    
-  }
+
 }
 

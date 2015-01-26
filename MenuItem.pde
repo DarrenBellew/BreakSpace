@@ -32,13 +32,13 @@ class MenuItem extends Option  {
     pushMatrix();
       translate(location.x, location.y);
       
-      
+        textAlign(CENTER, CENTER);
         rect(0,0,size.x, size.y);//For all others; the w,h is changed to x,y meaning x width and y width; its just consistency with PVectors :D
         textSize(20);
         fill(0);
         text(
           text, 
-          size.x/2 - textWidth(text)/2,
+          size.x/2,
           size.y/2
         );
         

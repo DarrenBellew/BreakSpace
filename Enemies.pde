@@ -35,14 +35,14 @@ class Enemy extends Entities {
     
   }
   
-  void hit()  {
+  boolean hit()  {
     lives--;
     println("I was hit");
 
     
     dim = dim/lives;
     colour = color(red(colour) *  dim, green(colour) * dim, blue(colour) * dim);
-    
+    return false;
   }
   
 }
