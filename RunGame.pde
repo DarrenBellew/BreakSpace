@@ -1,8 +1,25 @@
+//THE ACTUAL GAME ************ALL HAIL IT***************
+//points and balVar (ballVar may no longer be used)
 int ballVar;
+int points;
 
+//game related variables
+float fps = 60;//for dictiating the starting FPS and so i can alter it in the future.
+int gameTime;//to record how long the player has been in-game for
+ArrayList<Entities> entities = new ArrayList<Entities>();//All of the Entities of the game!
+
+//to hold a state for the game to be running (If false the game is reset and entities re-created after being deleted [when the game is restarted of-course])
+boolean gameRunning = false;
+
+//to hold names of the entities so I can easily distinguish them amongst the ArrayList without the need for a "instance of" case and makes it easier for me to compare;
+
+
+//create these objects so i have both arraylist and direct access to their contents/functions
 Ball ball;
 Player player;
 PowerUp powerUp;
+
+//the actual running game
 void runGame()  {
   fill(255);
   
@@ -14,23 +31,25 @@ void runGame()  {
     newGame();
     gameTime=millis();
   }
-  
+  //if the player lost
   if(player.lives <= 0)  {
-    gameOver();
+    gameOver("\n\nThank you for playing, but you lost\n");
   }
-  
-  
-  
+  //if the player won
+  else if(winCond())  {
+    gameOver("\n\nThank you for playing! YOU WON!!!\n");
+  }
+  //ease-of-access variable
   int size = entities.size();
-  textAlign(CENTER);
+  //show lives at top of screen
+  showText("Lives: "+ player.lives, centX,25,15);
   
-  showText("Lives: "+ player.lives, centX,30,15);
-  //println(frameRate);
-  
+  //show this if the selected power up has been hit! :D :D :D :D
   if(fps<60 || fps>60)  {
     showText("Bye Bye framerate!!", centX, centY, 15);
   }
   
+  //general functions fer almost everything,, displaying and moving
   while(i<size)  {    
     entities.get(i).display();
     entities.get(i).move();
@@ -49,6 +68,7 @@ void runGame()  {
     }
     i++;    
   }
+  
   // Collision detection bit
   for (i = 0 ; i < size ; i ++)
   {
@@ -60,6 +80,9 @@ void runGame()  {
       {
         if (!(entities.get(i) instanceof Player))  {
           entities.get(i).hit();
+          if(entities.get(i) instanceof Enemy)  {
+            points++;
+          }
         } 
       } 
     }
@@ -76,11 +99,13 @@ void runGame()  {
   i=0;
 }
 
+//new game function, like the setup() but for the game.
 void newGame()  {
   int i=0;
   clearEntities();
   ball = new Ball();
   player.reset();
+  points = 0;
   
   entities.add(player);
   entities.add(ball);
@@ -89,7 +114,7 @@ void newGame()  {
   for(i=1; i<=maxY; i++)  {
     for(int j=1; j<=maxX; j++)  {
       entities.add(new Enemy(j,i));//J is row, I is column.
-      CountEnem.set(i,j);//by the end itll have the Length and Width of the enemies (Scale: # Enemies);
+      //CountEnem.set(i,j);//by the end itll have the Length and Width of the enemies (Scale: # Enemies);
     }
     
   }
@@ -99,11 +124,12 @@ void newGame()  {
   
   i=0;
   textAlign(CENTER, CENTER);
-  showText("New Game, Press x to Begin", centX, centY, 15);
-  pause('X');
+  showText("New Game, Press anything to Begin", centX, centY, 15);
+  
   
 }
 
+//empties the Entities ArrayList
 void clearEntities()  {
   int i=0;
   player.reset();
@@ -112,6 +138,7 @@ void clearEntities()  {
   }
 }
 
+//function to print text onto the screen
 void showText(String msg, float x, float y, float size)  {
   textSize(size);
   fill(0,255,0);
@@ -122,16 +149,24 @@ void showText(String msg, float x, float y, float size)  {
     y-15
   );
 }
-void pause(char button)  {
-  if(checkKey(button))  {
-    gameRunning = true;
+//to check if the player has won
+boolean winCond()  {
+  for(int i=0; i<entities.size(); i++)  {
+    if(entities.get(i) instanceof Enemy)  {
+      return false;
+    }
   }
+  return true;
 }
 
-void gameOver()  {
-  menuMessage = "Thank you for playing, but you lost\n";
+//game over, recieves a message to print on the screen for the splash screen
+void gameOver(String message)  {
+  
   gameTime = abs(gameTime - millis())/1000;
-  menuMessage = menuMessage+"You lasted: "+ gameTime+" Seconds";
+  message = message+"You lasted: "+ gameTime+" Seconds";
+  message = message+"\nScore: "+points;
+  
+  menuMessage = message;
   clearEntities();
   menu = 0;
   gameRunning = false;

@@ -1,9 +1,7 @@
 <arcade>
 
 	<player>
-		<left>a</left>
-
-		<right>d</right>
-		
+		<left>A</left>
+		<right>D</right>
 	</player>
 </arcade>

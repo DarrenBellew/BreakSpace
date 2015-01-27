@@ -1,3 +1,4 @@
+//a base class for the Menu Items, Its no other real reason/advantage for this; other than it is just so theres less code on that page
 class Option  {
   PVector location = new PVector();
   PVector size = new PVector();

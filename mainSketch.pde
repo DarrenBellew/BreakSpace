@@ -1,28 +1,15 @@
+
+
+//General Global Variables that dont have a specific location to be in
 float centX, centY;
 color bg = color(255,255,255);
-int direction = 0;
-int menu = 0;//The current position of the player if it is 1 and goes 0 by player pressing ESC, the game is "Paused" :)
-int sMenu = -1;//to show the highlight of the mouse
-float fps = 60;
-String menuMessage = "Welcome to BreakSpace";
-int gameTime;
-
-
-ArrayList<Entities> entities = new ArrayList<Entities>();
-//a PVector to hold the number of enemies both on x-axis and y-axis for future use.
-PVector CountEnem;
-//to hold a state for the game to be running (If false the game is reset and entities re-created after being deleted
-boolean gameRunning = false;
-
-  
-//to hold names of the entities so I can easily distinguish them amongst the ArrayList without the need for a "instance of" case and makes it easier for me to compare;
-String[] names = {"Player", "Ball", "Enemy"};
-//development number
 
 //development ONLY
-int count = 0;
+//int count = 0;
 
-boolean devMode = false;
+//Development only things!
+boolean devMode = true;
+
 boolean sketchFullScreen() {
   return ! devMode;
 }
@@ -31,28 +18,33 @@ void setup()
 {
   if (devMode)
   {
-    size(500, 500);
+    size(800, 600);
   }
   else
   {
     size(displayWidth, displayHeight);
   }
 
-  smooth();
+  smooth();//smoother on the ball moving.
   centX = width/2;
   centY = height/2;
-  CountEnem = new PVector();
-  //Considering removing this so ignore the green it is a possible black/green retro look currently this is in idea to be REMOVED
+  //CountEnem = new PVector();
+  
   stroke(0,255,0);
   frameRate(fps);
-  
+  //get the player keys and set them up
   setupPlayer();
+  //setup the menu options.
+  options = getMenuOptions("menuOpts.txt", "~");//found at top of menu.pde
+  
+  //done here to profit from the setupPlayer();
+  menuMessage = "\n\nWelcome to BreakSpace\nLeft: "+player.left+"\nRight: "+player.right;
 }
 
 
 void draw()  {
   background(bg);
-  
+  //switch statement for traversing the menu options available
   switch(menu)  {
     case 0:  {
       mainMenu();
@@ -62,11 +54,8 @@ void draw()  {
       runGame();
       break;
     }
+    
     case 2:  {
-      showInfo();
-      break;
-    }
-    case 3:  {
       exit();
     }
   }
@@ -75,10 +64,10 @@ void draw()  {
   //println(entities.get(1).location.y);
 }
 
+//function to setup the player buttons
 void setupPlayer()  {
-  XML xml = loadXML("buttons.xml");
+  XML xml = loadXML("breakSpace.xml");
   XML[] children = xml.getChildren("player");
-  int gap = width/(children.length+1);
   
   for(int i=0; i<children.length; i++)  {
     XML playerXML = children[i];
@@ -89,9 +78,11 @@ void setupPlayer()  {
   }
 }
 
+//to convert the keys written in the XML file into actual "Keys"
 char buttonNameToKey(XML xml, String buttonName)  {
+  //get the children of which buttonName and get the content.
   String value = xml.getChild(buttonName).getContent();
-  
+  //checking strings, ignoring case, and returning if the buttonName Matches
   if("LEFT".equalsIgnoreCase(value))  {
     return LEFT;
   }

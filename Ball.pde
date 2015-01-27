@@ -1,17 +1,20 @@
+//if the ball ever increases speed, this sets its maximum (negative is also taken into account.
 PVector maxSpeed = new PVector(3, 3);
 
 
 class Ball extends Entities {//I call it ball but the player doesn't care
-
+  //the default size of the ball
   PVector primSize;
 
+  //contructors
   Ball(float x, float y, float w, float h) {
     location = new PVector(x, y);
     size = new PVector(w, h);//20*20
     primSize = new PVector(w, h);
     velocity = new PVector(0, 2);//so it starts off at the middle and slowly going downwards for the player to hit
-    name = names[1];
+    
     colour = color(0, 0, 255);
+    
     lives = 1;//so unaffected by CleanUp
   }
   Ball(float x, float y) {
@@ -31,6 +34,7 @@ class Ball extends Entities {//I call it ball but the player doesn't care
       );
   }
 
+  //display the ball on the screen
   void display() {
     fill(colour);
     stroke(colour);
@@ -41,9 +45,10 @@ class Ball extends Entities {//I call it ball but the player doesn't care
 
     popMatrix();
   }
-
+  //to move the ball "location.add(velocity);"
   void move() {
-
+    //Development Only
+    /*
     if (checkKey('O'))
     {
       location.y -= 1;
@@ -57,15 +62,16 @@ class Ball extends Entities {//I call it ball but the player doesn't care
     {
       location.x += 1;
     }
-
+    */
     location.add(velocity);
   }
-
+  
+  //check if the ball has collided with a wall, and if the bottom cause the player to lose a life.
   boolean wallCollision() {
     PVector l = new PVector(location);
     PVector s = new PVector(size);
 
-    //these while loops are to move it out of the edge if it ever glitches past
+    
     if (l.x <= 0) {
       velocity.mult(-1, 1);
       location.x = 0;
@@ -82,43 +88,23 @@ class Ball extends Entities {//I call it ball but the player doesn't care
     }
 
     if (l.y+s.y >=height) {
-
+      //no need to respond; player lost a life.
       return true;
     }
     return false;
   }
 
-  boolean collides(Entities b)
-  {
-    if (b.location.x + b.size.x < location.x)
-    {
-      return false;
-    }
-    if (b.location.x > location.x + size.x)
-    {
-      return false;
-    } 
-
-    if (b.location.y > location.y + size.y)
-    {
-      return false;
-    }
-
-    if (b.location.y + b.size.y < location.y)
-    {
-      return false;
-    }    
-    return true;
-  }
-
+  //to check if it collided with an entity.
+  //works by checking if there is GOING to be a collision
   boolean checkCollision(Entities e) {
+    //to respond accordingly to a vertical/horizontal collision
     boolean vCol = false;
     boolean hCol = false;
     // Top Collision
     if ((location.y + size.y + velocity.y >= e.location.y) && (location.y + size.y  <= e.location.y)) {
       // Now check the x's
       if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x)) {
-        println(++ count + "Top collision");
+        //println(++ count + "Top collision");
         velocity.mult(1, -1);
         vCol = true;
       }
@@ -128,7 +114,7 @@ class Ball extends Entities {//I call it ball but the player doesn't care
     // Bottom collision
     if ((location.y + velocity.y <= e.location.y + e.size.y) && (location.y >= e.location.y + e.size.y)) {
       if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x)) {
-        println(++ count + "Bottom collision");
+        //println(++ count + "Bottom collision");
         velocity.mult(1, -1);
         vCol = true;
       }
@@ -139,7 +125,7 @@ class Ball extends Entities {//I call it ball but the player doesn't care
     if ((location.x + size.x + velocity.x >= e.location.x) && (location.x + size.x  <= e.location.x)) {
       // Now check the y's
       if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y)) {
-        println(++ count + "Left  collision");
+        //println(++ count + "Left  collision");
         velocity.mult(-1, 1);
         hCol = true;
       }
@@ -149,11 +135,13 @@ class Ball extends Entities {//I call it ball but the player doesn't care
     if ((location.x + velocity.x <= e.location.x + e.size.x) && (location.x >= e.location.x + e.size.x)) {
       // Now check the y's      
       if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y)) {
-        println(++ count + "Right collision");
+        //println(++ count + "Right collision");
         velocity.mult(-1, 1);
         hCol = true;
       }
     }
+    
+    //if either a vertical/horizontal collision
     if (hCol || vCol) {
 
       if (e instanceof Player) {//I do this so only the PLAYER gets the speed changes!
@@ -163,6 +151,7 @@ class Ball extends Entities {//I call it ball but the player doesn't care
         } else {
           velocity.add(0.5, 0.5);
         }
+        //to make a more dramatic affect on the bal hitting the playerPaddle
         float half;
         float ballCent;
         float entCent;
@@ -196,16 +185,22 @@ class Ball extends Entities {//I call it ball but the player doesn't care
           }
         }
       }
+      //returns true no matter WHAT it collided with
       return true;
     }
+    //was no collision
     return false;
   }
+  
+  //power up function to mess with the sizes of the Ball
   void sizeToggle() {
     if (size.x > primSize.x && size.y > primSize.x) {
       size.set(primSize);
-    } else if (size.x < primSize.x && size.y > primSize.y) {
+    } 
+    else if (size.x < primSize.x && size.y > primSize.y) {
       size.set(primSize);
-    } else {
+    } 
+    else {
       size.set(size.x/2, size.y/2);
     }
   }

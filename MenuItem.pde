@@ -1,14 +1,18 @@
+//The Menu Class (So I can add more menu options with ease whenever I want)
+
 class MenuItem extends Option  {
   
-  
+  //constructors
   MenuItem(float x, float y, float w, float h, String t, int j)  {
-    location.set(centX - w/2, centY/2 + h*j*2);
-    size.set(w,h);
-    text = t;
+    location = new PVector(centX - w/2, centY/2 + h*j*2);
+    size = new PVector(w,h);
     
+    text = t;
+    //if mouse hover/not    
     active = color(10,200,10);
     unactive = color(10,10,200);
     on = false;
+    //the actual menu number (To function with the switch case in the base of the draw function
     menNum = j+1;
   }
   MenuItem(float x, float y, String t, int i)  {
@@ -17,7 +21,7 @@ class MenuItem extends Option  {
   MenuItem(int i, String t)  {
     this(centX-25, centY - i * 25,50,50,t, i);//this is ever for a simple Center Screen option
   }
-  
+  //display the menu item I
   void display(int i)  {
     if(mouseX < location.x+size.x && mouseX > location.x && mouseY > location.y && mouseY < location.y+size.y)  {
       fill(active);//if mouse is inside the area highlight it and set Active true

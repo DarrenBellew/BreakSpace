@@ -1,8 +1,9 @@
-//TBA
+//game PowerUp's (The square you randomly see falling from the screen thats hard to hit
+//it only gets hit by the ball purposly to make it a random event thats not too common and 
+//should actually affect your score (Is fair to) as it takes quite a bit of focus to get it to hit the power up.
 
-class PowerUp extends Entities {
-  
-  
+class PowerUp extends Entities {  
+  //constructors
   PowerUp(float x, float y, float w, float h, float ySpeed)  {
     
     location = new PVector(x,y);
@@ -19,8 +20,8 @@ class PowerUp extends Entities {
     this(
       random(5,width-5),
       0,
-      5,
-      5,
+      width/100,
+      width/100,
       1
     );
   }
@@ -62,7 +63,7 @@ class PowerUp extends Entities {
     
     return true;//just because of requirements
   }
-  
+  //to reset it to normal when it hits the bottom and remade at the top.
   boolean restart()  {
     int restart = (int)random(0,100);
     lives=1;
@@ -70,7 +71,7 @@ class PowerUp extends Entities {
       //reset the THIS
       
       location.set(random(5,width-5),0);
-      size.set(5,5);
+      size.set(width/100,width/100);
       velocity.set(0,random(0,5));
       
       

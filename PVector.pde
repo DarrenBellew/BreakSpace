@@ -1,3 +1,5 @@
+//A PVector class setup (math library) that I decided to make myself
+//honestly when I made these I never knew PVectors had pre-made functions and instead of learning them, I made my own!
 class PVector  {
   float x,y;
   

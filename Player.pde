@@ -1,9 +1,10 @@
+//the class for THE player
 class Player extends Entities {
   PVector primSize;
   
   char left;
   char right;
-  
+  //contructors
   Player(float x, float y, float w, float h, char left, char right)  {
     location = new PVector(x,y);
     
@@ -11,11 +12,11 @@ class Player extends Entities {
     size = new PVector(w,h);
     primSize=new PVector(w,h);//i.e. Primary Size
     
-    name = names[0];
     colour = color(255,255,0);
     lives = 3;
-    this.right = right;
+    
     this.left = left;
+    this.right = right;
     
   }
   
@@ -58,27 +59,28 @@ class Player extends Entities {
     PVector temp = new PVector(location);
     
     
-      if(checkKey('A') && temp.x > 0)  {
+      if(checkKey(left) && temp.x > 0)  {
         velocity.set(-2,0);
       }
-      if(checkKey('D') && temp.x+size.x < width)  {
+      if(checkKey(right) && temp.x+size.x < width)  {
         velocity.set(2,0);
       }
       
       location.add(velocity);
       velocity.set(0,0);
   }
-  
+  //if the player is hit, returns true for functionality.
   boolean hit()  {
     lives--;
     return true;
   }
   
+  //reset the player to original case because of being created in SETUP to load the controls!
   void reset()  {
     location.set(centX-20,height-100);
     lives = 3;
   }
-  
+  //toggle its size for the Power Up (smaller was disregarded as it made it too difficult)
   void sizeToggle()  {
     if(size.x != primSize.x || size.y != primSize.y)  {
       size.set(primSize);
