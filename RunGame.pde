@@ -26,6 +26,11 @@ void runGame()  {
   
   showText("Lives: "+ player.lives, centX,30,15);
   //println(frameRate);
+  
+  if(fps<60 || fps>60)  {
+    showText("Bye Bye framerate!!", centX, centY, 15);
+  }
+  
   while(i<size)  {    
     entities.get(i).display();
     entities.get(i).move();
@@ -39,7 +44,7 @@ void runGame()  {
     if(ball.wallCollision())  {//returns TRUE if hits BOTTOM of screen
       if(player.hit())  {
         ball.location.set(centX,centY);
-        ball.velocity.set(0,3);
+        ball.velocity.set(0,1);
       }
     }
     i++;    

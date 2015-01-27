@@ -67,14 +67,7 @@ class Player extends Entities {
       size.set(primSize);
     }
     else  {
-      int rand = (int)random(0,2);
-      if(rand == 0)  {
-        size.set(primSize.x/2, primSize.y/2);
-      }
-      else  {
-        size.set(primSize.x*2, primSize.y*2);
-      }
+      size.set(primSize.x*2, primSize.y*2);
     }
   }
-  
 }

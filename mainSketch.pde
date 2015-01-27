@@ -6,6 +6,7 @@ int sMenu = -1;//to show the highlight of the mouse
 float fps = 60;
 String menuMessage = "Welcome to BreakSpace";
 int gameTime;
+XML[] children;//theres only 1 player so itll still be 0, its still an array for Safety
 
 ArrayList<Entities> entities = new ArrayList<Entities>();
 //a PVector to hold the number of enemies both on x-axis and y-axis for future use.
@@ -28,6 +29,8 @@ void setup()  {
   //Considering removing this so ignore the green it is a possible black/green retro look currently this is in idea to be REMOVED
   stroke(0,255,0);
   frameRate(fps);
+  
+  //setupControls();
 }
 
 
@@ -52,6 +55,15 @@ void draw()  {
   //println(entities.get(1).location.y);
 }
 
+void setupPlayer()  {
+  XML xml = loadXML("buttons.xml");
+  XML[] children = xml.getChildren("player");
+  int gap = width/(children.length+1);
+  
+  for(int i=0; i<children.length; i++)  {
+    
+  }
+}
 
 
 

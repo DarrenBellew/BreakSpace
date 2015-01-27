@@ -1,3 +1,6 @@
+PVector maxSpeed = new PVector(3,3);
+
+
 class Ball extends Entities  {//I call it ball but the player doesn't care
   
   PVector primSize;
@@ -66,15 +69,25 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
     PVector l = new PVector(location);
     PVector s = new PVector(size);
     
-    
-    if(l.x <= 0 || l.x+s.x >= width)  {
+    //these while loops are to move it out of the edge if it ever glitches past
+    if(l.x <= 0) {
       velocity.mult(-1,1);
+      location.x = 0;
     }
-    if(l.y <= 0 || l.y+s.y >=height)  {
+    
+    if(l.x+s.x >= width)  {
+      velocity.mult(-1,1);
+      location.x =  width-size.x;
+    }
+    
+    if(l.y <= 0)  {
+      location.y=0;
       velocity.mult(1,-1);
-      if(l.y+s.y >= height)  {
-        return true;
-      }
+    }
+    
+    if(l.y+s.y >=height)  {
+      
+      return true;
     }
     return false;
   }
@@ -111,7 +124,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))  {
         println(++ count + "Top collision");
         velocity.mult(1,-1);
-        hCol = true;
+        vCol = true;
       }
     }
     
@@ -121,7 +134,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       if ((location.x >= e.location.x - size.x) && (location.x <= e.location.x + e.size.x))  {
         println(++ count + "Bottom collision");
         velocity.mult(1,-1);
-        hCol = true;
+        vCol = true;
       } 
     }    
     
@@ -132,7 +145,7 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))  {
         println(++ count + "Left  collision");
         velocity.mult(-1,1);
-        vCol = true; 
+        hCol = true; 
       }
     }
     
@@ -142,10 +155,48 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       if ((location.y >= e.location.y - size.y) && (location.y <= e.location.y + e.size.y))  {
         println(++ count + "Right collision");
         velocity.mult(-1,1);
-        vCol = true;
+        hCol = true;
       }
     }
     if(hCol || vCol)  {
+        
+      if(e instanceof Player)  {//I do this so only the PLAYER gets the speed changes!
+      velocity.add(0.5,0.5);//speeds up on hitting player, and makes it look more fluid
+        float half;
+        float ballCent;
+        float entCent;
+        float ballOffset;
+        
+        if(hCol)  {
+          half = e.size.x/2;
+          ballCent = location.x + size.x/2;
+          entCent = e.location.x + half;
+          ballOffset = ballCent - entCent;
+          velocity.x = ballOffset/half;
+          
+          //these are just error check incase it EVER gets too fast
+          if(velocity.x > maxSpeed.x)  {
+            velocity.x = maxSpeed.x;
+          }
+          else if(velocity.x < -maxSpeed.x)  {
+            velocity.x = -maxSpeed.x;
+          }
+        }
+        if(vCol)  {
+          half = e.size.y/2;
+          ballCent = location.y + size.y/2;
+          entCent = e.location.y+half;
+          ballOffset = ballCent - entCent;
+          velocity.y = ballOffset/half * maxSpeed.y;
+          
+          if(velocity.y > maxSpeed.y)  {
+            velocity.y = maxSpeed.y;
+          }
+          else if(velocity.y < -maxSpeed.y)  {
+            velocity.y = -maxSpeed.y;
+          }
+        }
+      }
       return true;
     }
     return false;
@@ -158,18 +209,8 @@ class Ball extends Entities  {//I call it ball but the player doesn't care
       size.set(primSize);
     }
     else  {
-      int rand = (int)random(0,2);
-      switch (rand)  {
-        //make bigger or smaller if neither big/small
-        case 0:  {
-          size.set(size.x/2, size.y/2);
-        }
-        case 1:  {
-          size.set(size.x*2, size.x*2);
-        }
-      }
+      size.set(size.x/2, size.y/2);  
     }
   }
-
 }
 
