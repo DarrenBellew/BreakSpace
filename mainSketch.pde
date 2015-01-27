@@ -17,10 +17,26 @@ boolean gameRunning = false;
   
 //to hold names of the entities so I can easily distinguish them amongst the ArrayList without the need for a "instance of" case and makes it easier for me to compare;
 String[] names = {"Player", "Ball", "Enemy"};
+//development number
 
+//development ONLY
 int count = 0;
-void setup()  {
-  size(500,500);
+
+boolean devMode = false;
+boolean sketchFullScreen() {
+  return ! devMode;
+}
+
+void setup()
+{
+  if (devMode)
+  {
+    size(500, 500);
+  }
+  else
+  {
+    size(displayWidth, displayHeight);
+  }
 
   smooth();
   centX = width/2;
@@ -47,6 +63,10 @@ void draw()  {
       break;
     }
     case 2:  {
+      showInfo();
+      break;
+    }
+    case 3:  {
       exit();
     }
   }

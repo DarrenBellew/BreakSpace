@@ -86,8 +86,8 @@ void newGame()  {
   entities.add(ball);
   
   
-  for(i=1; i<=10; i++)  {
-    for(int j=1; j<=10; j++)  {
+  for(i=1; i<=maxY; i++)  {
+    for(int j=1; j<=maxX; j++)  {
       entities.add(new Enemy(j,i));//J is row, I is column.
       CountEnem.set(i,j);//by the end itll have the Length and Width of the enemies (Scale: # Enemies);
     }

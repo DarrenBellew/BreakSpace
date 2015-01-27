@@ -32,10 +32,10 @@ class Player extends Entities {
   
   Player(XML xml)  {
     this(
-      300,
-      400,
-      40,//for center of screen, 20 is hald the width
-      10,
+      centX-20,
+      height-100,
+      width/12.5,//for center of screen, 20 is hald the width
+      width/50,
       buttonNameToKey(xml,"left"),
       buttonNameToKey(xml,"right")
       
@@ -75,7 +75,7 @@ class Player extends Entities {
   }
   
   void reset()  {
-    location.set(300,400);
+    location.set(centX-20,height-100);
     lives = 3;
   }
   

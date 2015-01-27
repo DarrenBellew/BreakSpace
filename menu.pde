@@ -1,4 +1,4 @@
-String[] options = {"Play", "Exit"};//I will admit i dont know why this has to be inverted
+String[] options = {"Play", "Exit", "Info"};//I will admit i dont know why this has to be inverted
 
 ArrayList<Option> menuOpts = new ArrayList<Option>();
 
