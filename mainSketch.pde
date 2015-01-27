@@ -6,7 +6,7 @@ int sMenu = -1;//to show the highlight of the mouse
 float fps = 60;
 String menuMessage = "Welcome to BreakSpace";
 int gameTime;
-XML[] children;//theres only 1 player so itll still be 0, its still an array for Safety
+
 
 ArrayList<Entities> entities = new ArrayList<Entities>();
 //a PVector to hold the number of enemies both on x-axis and y-axis for future use.
@@ -30,7 +30,7 @@ void setup()  {
   stroke(0,255,0);
   frameRate(fps);
   
-  //setupControls();
+  setupPlayer();
 }
 
 
@@ -61,11 +61,25 @@ void setupPlayer()  {
   int gap = width/(children.length+1);
   
   for(int i=0; i<children.length; i++)  {
+    XML playerXML = children[i];
     
+    player = new Player(
+      playerXML
+    );
   }
 }
 
-
-
+char buttonNameToKey(XML xml, String buttonName)  {
+  String value = xml.getChild(buttonName).getContent();
+  
+  if("LEFT".equalsIgnoreCase(value))  {
+    return LEFT;
+  }
+  if("RIGHT".equalsIgnoreCase(value))  {
+    return RIGHT;
+  }
+  
+  return value.charAt(0);
+}
 
 

@@ -1,6 +1,10 @@
 class Player extends Entities {
   PVector primSize;
-  Player(float x, float y, float w, float h)  {
+  
+  char left;
+  char right;
+  
+  Player(float x, float y, float w, float h, char left, char right)  {
     location = new PVector(x,y);
     
     velocity = new PVector();
@@ -10,23 +14,31 @@ class Player extends Entities {
     name = names[0];
     colour = color(255,255,0);
     lives = 3;
+    this.right = right;
+    this.left = left;
+    
   }
   
-  Player(float x, float y)  {
+  Player(float x, float y, XML xml)  {
     this(
       40,
       10,
       x,
-      y
+      y,
+      buttonNameToKey(xml,"left"),
+      buttonNameToKey(xml,"right")
     );
   }
   
-  Player()  {
+  Player(XML xml)  {
     this(
       300,
       400,
       40,//for center of screen, 20 is hald the width
-      10
+      10,
+      buttonNameToKey(xml,"left"),
+      buttonNameToKey(xml,"right")
+      
     );
     
   }
@@ -60,6 +72,11 @@ class Player extends Entities {
   boolean hit()  {
     lives--;
     return true;
+  }
+  
+  void reset()  {
+    location.set(300,400);
+    lives = 3;
   }
   
   void sizeToggle()  {

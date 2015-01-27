@@ -80,7 +80,8 @@ void newGame()  {
   int i=0;
   clearEntities();
   ball = new Ball();
-  player = new Player();
+  player.reset();
+  
   entities.add(player);
   entities.add(ball);
   
@@ -105,6 +106,7 @@ void newGame()  {
 
 void clearEntities()  {
   int i=0;
+  player.reset();
   while(entities.size() != 0)  {
     entities.remove(0);
   }
